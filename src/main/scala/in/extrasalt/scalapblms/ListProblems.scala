@@ -1,4 +1,9 @@
-object ListManip{
+package in.extrasalt.scalapblms
+
+/**
+  * Created by mohan on 20/6/17.
+  */
+object ListProblems {
   def last(list : List[Int]) : Int = {
     list(list.length - 1)
   }
@@ -8,8 +13,8 @@ object ListManip{
   }
 
   def compress(list: List[Symbol]) : List[Symbol] = {
-   if (list.size == 0) list
-   else List(list(0)) ::: compress(list.filter((x) => x != list(0)))
+    if (list.size == 0) list
+    else List(list(0)) ::: compress(list.filter((x) => x != list(0)))
   }
 
   def sum3sAnd5s(range: Range) : Int = {
@@ -34,11 +39,11 @@ object ListManip{
   def reverse(list : List[Int]) : List[Int] = {
     if(list.size == 1) list
     else {
-     val (left, right) = list.splitAt(list.length-1)
-     right ::: reverse(left)
+      val (left, right) = list.splitAt(list.length-1)
+      right ::: reverse(left)
     }
   }
-  
+
   def main(args: Array[String]) = {
     assert(last(List(1, 1, 2, 3, 5, 8)) == 8)
     assert( penultimate(List(1, 1, 2, 3, 5, 8)) == 5 )
