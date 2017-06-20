@@ -25,6 +25,11 @@ object ListManip{
       left ::: drop(n, right.drop(1))
     }
   }
+
+  def slice(l : Int, r : Int, list : List[Symbol])={
+    val (left, right) = list.splitAt(r)
+    left.drop(l)
+  }
   
   def main(args: Array[String]) = {
     assert(last(List(1, 1, 2, 3, 5, 8)) == 8)
@@ -32,6 +37,7 @@ object ListManip{
     assert( compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) == List('a, 'b, 'c, 'd, 'e) )
     assert(sum3sAnd5s(1 to 9) == 23)
     assert(drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) == List('a, 'b, 'd, 'e, 'g, 'h, 'j, 'k))
+    assert(slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)).equals(List('d, 'e, 'f, 'g)))
     println(sum3sAnd5s(1 to 999))
   }
 }
