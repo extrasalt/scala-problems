@@ -15,12 +15,23 @@ object ListManip{
   def sum3sAnd5s(range: Range) : Int = {
     range.toList.filter((x) => x % 3 == 0 || x %5 == 0).reduce((x,y) => x+y)
   }
+
+  def drop(n : Int, list : List[Symbol]) : List[Symbol] = {
+    if (list.size < n) {
+      list
+    }
+    else {
+      val (left, right) = list.splitAt(n-1)
+      left ::: drop(n, right.drop(1))
+    }
+  }
   
   def main(args: Array[String]) = {
     assert(last(List(1, 1, 2, 3, 5, 8)) == 8)
     assert( penultimate(List(1, 1, 2, 3, 5, 8)) == 5 )
     assert( compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) == List('a, 'b, 'c, 'd, 'e) )
     assert(sum3sAnd5s(1 to 9) == 23)
+    assert(drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) == List('a, 'b, 'd, 'e, 'g, 'h, 'j, 'k))
     println(sum3sAnd5s(1 to 999))
   }
 }
