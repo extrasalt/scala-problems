@@ -1,8 +1,5 @@
 package in.extrasalt.scalapblms
 
-/**
-  * Created by mohan on 20/6/17.
-  */
 object ListProblems {
   def last(list : List[Int], n : Int = 0) : Int = {
     if(n==list.length-1) list(n)
@@ -51,13 +48,7 @@ object ListProblems {
   }
 
   def main(args: Array[String]) = {
-    assert(last(List(1, 1, 2, 3, 5, 8)) == 8)
-    assert( penultimate(List(1, 1, 2, 3, 5, 8)) == 5 )
-    assert( compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) == List('a, 'b, 'c, 'd, 'e) )
-    assert(sum3sAnd5s(1 to 9) == 23)
-    assert(drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) == List('a, 'b, 'd, 'e, 'g, 'h, 'j, 'k))
-    assert(slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)).equals(List('d, 'e, 'f, 'g)))
-    assert(reverse(List(1, 1, 2, 3, 5, 8)).equals(List(8, 5, 3, 2, 1, 1)))
+
     println(sum3sAnd5s(1 to 999))
   }
 }
