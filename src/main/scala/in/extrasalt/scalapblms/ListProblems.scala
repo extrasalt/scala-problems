@@ -47,6 +47,22 @@ object ListProblems {
     }
   }
 
+  def isLex(n : Int, s: Set[Int]): Boolean = {
+    //Number as list of digits
+    val list = n.toString.map(_.asDigit).toList
+    //Checks if the number contains unique digits
+    if(list.size != list.toSet.size) return false
+    else {
+      list.toSet.subsetOf(s)
+    }
+  }
+
+  def findAllPermutation(s: Set[Int]) : List[Int] = {
+    val limit = (math.pow(10,s.size) - 1).toInt
+    val start = (math.pow(10,s.size-1)).toInt
+    (start to limit).toList.filter((x)=> isLex(x, s))
+  }
+
   def main(args: Array[String]) = {
 
     println(sum3sAnd5s(1 to 999))

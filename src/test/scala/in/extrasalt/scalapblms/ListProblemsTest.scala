@@ -32,4 +32,12 @@ class ListProblemsTest extends FlatSpec {
     ListProblems.drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)) should be(List('a, 'b, 'd, 'e, 'g, 'h, 'j, 'k))
   }
 
+  "isLex" should "return true only if the the number is a permutation of the given set" in {
+    ListProblems.isLex(3000, Set(1, 2, 3, 4)) should be(false)
+    ListProblems.isLex(1234, Set(1,2,3,4)) should be(true)
+  }
+
+  "List" should "find all permutations of a given set" in {
+    ListProblems.findAllPermutation(Set(1,2,3)) should be(List(123, 132, 213, 231, 312, 321))
+  }
 }
