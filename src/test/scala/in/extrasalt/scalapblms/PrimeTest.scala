@@ -9,4 +9,8 @@ class PrimeTest extends FlatSpec {
     Prime.listPrimesinRange(7 to 31) should be(List(7, 11, 13, 17, 19, 23, 29, 31))
   }
 
+  "IsPrime" should "return true if a number if prime" in {
+    Prime.isPrime(5) should be(true)
+  }
+
 }
