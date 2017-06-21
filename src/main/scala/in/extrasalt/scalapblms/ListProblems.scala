@@ -4,12 +4,18 @@ package in.extrasalt.scalapblms
   * Created by mohan on 20/6/17.
   */
 object ListProblems {
-  def last(list : List[Int]) : Int = {
-    list(list.length - 1)
+  def last(list : List[Int], n : Int = 0) : Int = {
+    if(n==list.length-1) list(n)
+    else {
+      last(list, n+1)
+    }
   }
 
-  def penultimate(list : List[Int]) : Int =  {
-    list(list.length - 2)
+  def penultimate(list : List[Int], n: Int=0) : Int =  {
+    if(n==list.length-2) list(n)
+    else {
+      penultimate(list, n+1)
+    }
   }
 
   def compress(list: List[Symbol]) : List[Symbol] = {
