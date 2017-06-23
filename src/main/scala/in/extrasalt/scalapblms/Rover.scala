@@ -37,7 +37,4 @@ case class Rover(x: Int, y: Int, dir: String, plateau: Plateau) {
     case "N" => this.copy(dir="E")
   }
 
-  cd s
-
-
 }
