@@ -2,7 +2,7 @@ package in.extrasalt.scalapblms
 
 case class Plateau(x: Int, y:Int)
 
-case class Rover(x: Int, y: Int, dir: String, plateau: Plateau) {
+case class Rover(x: Int, y: Int, dir: String) {
   def position(): String = {
     s"$x $y $dir"
   }
