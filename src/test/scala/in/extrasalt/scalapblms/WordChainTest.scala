@@ -17,4 +17,9 @@ class WordChainTest extends FlatSpec {
     WordChain.augmentString("Hello", "Tryan", 2) should be("Heylo")
   }
 
+  it should "be able to generate an adjacency list for a given word" in {
+    val wc = new WordChain("yello", "hello", List("hello", "yallo", "herro", "terro", "herrp"))
+    wc.getAdjacentElements("yello").toSet should be(List("yallo", "hello").toSet)
+    wc.getAdjacentElements("herro").toSet should be(List("terro", "herrp").toSet)
+  }
 }

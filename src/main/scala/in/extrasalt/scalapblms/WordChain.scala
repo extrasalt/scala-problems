@@ -4,7 +4,16 @@ import scala.io.Source
 
 class WordChain(start: String, end: String, dictionary: List[String]) {
 
-  val filterdDictionary = dictionary.filter(_.length == start.length)
+  val filterdDictionary: List[String] = dictionary.filter(_.length == start.length)
+
+  def adjacentList : Map[String,List[String]] = {
+
+    this.filterdDictionary.map((x) => x -> getAdjacentElements(x)).toMap
+  }
+
+  def getAdjacentElements(string: String) : List[String] = {
+    filterdDictionary.filter(WordChain.countHopAway(string,_) == 1)
+  }
 
   def chainExists(): Boolean = start.length == end.length
 
@@ -12,7 +21,7 @@ class WordChain(start: String, end: String, dictionary: List[String]) {
 
 object WordChain {
 
-  def readDictionary() = {
+  def readDictionary() : List[String] = {
     Source.fromFile("/words.dat").getLines.toList
   }
 
