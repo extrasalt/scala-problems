@@ -15,7 +15,15 @@ class WordChain(start: String, end: String, dictionary: List[String]) {
     filterdDictionary.filter(WordChain.countHopAway(string,_) == 1)
   }
 
-  def chainExists(): Boolean = start.length == end.length
+  def chainExists(start : String = start): Boolean = {
+    if (start.length != end.length) false
+    else if(start.equals(end)) true
+    else {
+      //true if even one value is true
+      adjacentList(start).exists((x) => chainExists(x))
+    }
+
+  }
 
 }
 
