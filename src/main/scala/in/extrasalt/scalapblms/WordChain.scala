@@ -6,22 +6,22 @@ class WordChain(start: String, end: String, dictionary: List[String]) {
 
   val filterdDictionary: List[String] = dictionary.filter(_.length == start.length)
 
-  def adjacentList : Map[String,List[String]] = {
+  def adjacentList: Map[String, List[String]] = {
 
     this.filterdDictionary.map((x) => x -> getAdjacentElements(x)).toMap
   }
 
-  def getAdjacentElements(string: String) : List[String] = {
-    filterdDictionary.filter(WordChain.countHopAway(string,_) == 1)
+  def getAdjacentElements(string: String): List[String] = {
+    filterdDictionary.filter(WordChain.countHopAway(string, _) == 1)
   }
 
-  def chainExists(start : String = start): Boolean = {
+  def chainExists(start: String = start, visited: Set[String] = Set()): Boolean = {
+    if(visited.contains(start)) return false
+    val newVisited : Set[String] = visited ++ Set(start)
     if (start.length != end.length) false
-    else if(start.equals(end)) true
-    else {
-      //true if even one value is true
-      adjacentList(start).exists((x) => chainExists(x))
-    }
+    else if (start.equals(end)) true
+    else if (adjacentList(start).toSet.subsetOf(visited)) false
+    else adjacentList(start).exists((x)=>chainExists(x,newVisited))
 
   }
 
@@ -29,7 +29,7 @@ class WordChain(start: String, end: String, dictionary: List[String]) {
 
 object WordChain {
 
-  def readDictionary() : List[String] = {
+  def readDictionary(): List[String] = {
     Source.fromFile("/words.dat").getLines.toList
   }
 
@@ -45,7 +45,7 @@ object WordChain {
     val aList = from.toList
     val bList = s.toList
 
-    val augmentedB = bList.zipWithIndex.map{
+    val augmentedB = bList.zipWithIndex.map {
       case (c, i) => if (i == at) aList(at) else c
     }
 

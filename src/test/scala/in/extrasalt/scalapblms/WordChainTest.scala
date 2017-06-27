@@ -22,4 +22,14 @@ class WordChainTest extends FlatSpec {
     wc.getAdjacentElements("yello").toSet should be(List("yallo", "hello").toSet)
     wc.getAdjacentElements("herro").toSet should be(List("terro", "herrp").toSet)
   }
+
+  it should "return true for chains that do exist" in {
+    val wc = new WordChain("yello", "helro", List("yello", "hello", "herlo", "herro", "helro"))
+    wc.chainExists() should be(true)
+  }
+
+  it should "return false for chains that don't exist" in {
+    val wc = new WordChain("hello", "tommo", List("hello","yello", "carrd", "wordd", "tooth"))
+    wc.chainExists() should be(false)
+  }
 }
