@@ -11,7 +11,7 @@ class TautologyTest extends FlatSpec {
     Tautology.listVariables("a|(b&c)") should be(List('a', 'b', 'c'))
   }
 
-  it should "given a list, it should be able to tell if the variable count is balanced" in {
+  it should "be able to tell if the variable count is balanced in a given list" in {
     Tautology.isVariableCountBalanced(List('a', 'b', 'a', 'c')) should be(false)
     Tautology.isVariableCountBalanced(List('a','b', 'a', 'b')) should be(true)
   }

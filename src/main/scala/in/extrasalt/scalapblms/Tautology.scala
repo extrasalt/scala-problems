@@ -10,4 +10,8 @@ object Tautology {
 
   def isVariableCountBalanced(list: List[Char]) : Boolean =
     !list.groupBy((x) => x).mapValues(_.size).values.exists((x)=>x%2==1)
+
+  def isTautology(expression: String): Boolean = {
+    isVariableCountBalanced(listVariables(expression))
+  }
 }
