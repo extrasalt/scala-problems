@@ -9,20 +9,35 @@ object Tautology {
     !list.groupBy((x) => x).mapValues(_.size).values.exists((x)=>x%2==1)
 
   def isTautology(expression: String): Boolean = {
-    isVariableCountBalanced(listVariables(expression))
+    if(isVariableCountBalanced(listVariables(expression))){
+     true
+    } else false
   }
 
-  def splitAtBraces(expression: String): List[String] = {
+  def splitAtOpeningBraces(expression: String): List[String] = {
     expression.replaceAll("\\s","").split("\\(", 2).toList
   }
 
-  def eval(expression: String): String = expression match {
-    case "1" => "1"
-    case "!a|a" => "1"
-    case "!0" => "1"
-    case "a|!a" => "1"
-    case _ => "0"
+  def splitAtClosingBraces(expression: String): List[String] = {
+    expression.split("\\)",2).toList.filter(_.nonEmpty)
   }
 
+  def eval(expression: String): String = {
+    if(expression.contains("\\(")){
+      val splitList = splitAtOpeningBraces(expression)
+      eval(splitList.head.concat(eval(splitList(1))))
+    } else if(expression.contains("\\)")){
+      val splitList = splitAtClosingBraces(expression)
+      eval(eval(splitList.head).concat(splitList(1)))
+    }else {
+      expression match {
+        case "1" => "1"
+        case "!a|a" => "1"
+        case "!0" => "1"
+        case "a|!a" => "1"
+        case _ => "0"
+      }
+    }
+  }
 
 }
