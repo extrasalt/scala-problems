@@ -29,6 +29,7 @@ object ScrabbleProblem {
     'y' -> 4,
     'z' -> 10
   )
+
   def getWordValue(string: String, scoreMap: Map[Char, Int]) = {
     string.toList.map((x) => scoreMap(x)).sum
   }
