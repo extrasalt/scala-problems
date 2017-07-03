@@ -16,4 +16,13 @@ class TautologyTest extends FlatSpec {
     Tautology.isVariableCountBalanced(List('a','b', 'a', 'b')) should be(true)
   }
 
+  it should "evaluate and return 1 for tautological cases" in {
+    Tautology.eval("a | !a") should be("1")
+    Tautology.eval("!a | a") should be("1")
+  }
+
+  it should "split at braces and return two Lists" in {
+    Tautology.splitAtBraces("a | ( b & c)") should be(List("a | "," b & c)"))
+  }
+
 }
