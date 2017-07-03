@@ -7,13 +7,9 @@ class TautologyTest extends FlatSpec {
 
   behavior of "Tautology"
 
-  it should "list variables parsed from an expression" in {
-    Tautology.listVariables("a|(b&c)") should be(List('a', 'b', 'c'))
-  }
-
   it should "be able to tell if the variable count is balanced in a given list" in {
-    Tautology.isVariableCountBalanced(List('a', 'b', 'a', 'c')) should be(false)
-    Tautology.isVariableCountBalanced(List('a','b', 'a', 'b')) should be(true)
+    Tautology.isVariableCountBalanced("a|b&c") should be(false)
+    Tautology.isVariableCountBalanced("(a&b)|(a|b)") should be(true)
   }
 
   it should "evaluate and return 1 for tautological cases" in {
