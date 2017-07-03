@@ -33,8 +33,14 @@ object Tautology {
       expression match {
         case "1" => "1"
         case "!a|a" => "1"
+        case "1|1" => "1"
+        case "a|1" => "1"
+        case "1&1" => "1"
+        case "1|a" => "1"
         case "!0" => "1"
         case "a|!a" => "1"
+        case "a" => "a"
+        case "!a" => "!a"
         case _ => "0"
       }
     }
