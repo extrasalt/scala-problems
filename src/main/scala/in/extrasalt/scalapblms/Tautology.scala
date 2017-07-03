@@ -15,7 +15,7 @@ object Tautology {
   }
 
   def splitAtOpeningBraces(expression: String): List[String] = {
-    expression.replaceAll("\\s","").split("\\(", 2).toList
+    expression.split("\\(", 2).toList
   }
 
   def splitAtClosingBraces(expression: String): List[String] = {
@@ -23,14 +23,15 @@ object Tautology {
   }
 
   def eval(expression: String): String = {
-    if(expression.contains("\\(")){
-      val splitList = splitAtOpeningBraces(expression)
+    val trimmedExpression = expression.replaceAll("\\s", "")
+    if(trimmedExpression.contains("\\(")){
+      val splitList = splitAtOpeningBraces(trimmedExpression)
       eval(splitList.head.concat(eval(splitList(1))))
-    } else if(expression.contains("\\)")){
-      val splitList = splitAtClosingBraces(expression)
+    } else if(trimmedExpression.contains("\\)")){
+      val splitList = splitAtClosingBraces(trimmedExpression)
       eval(eval(splitList.head).concat(splitList(1)))
     }else {
-      expression match {
+      trimmedExpression match {
         case "1" => "1"
         case "!a|a" => "1"
         case "1|1" => "1"
