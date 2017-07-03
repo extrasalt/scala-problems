@@ -4,17 +4,14 @@ import scala.io.Source
 
 class WordChain(dictionary: List[String]) {
 
-
-  val adjacentList: Map[String, Set[String]] = {
-
+  val adjacentList: Map[String, Set[String]] =
     dictionary.map((x) => x -> getAdjacentElements(x)).toMap
-  }
 
   def getAdjacentElements(string: String): Set[String] = {
     dictionary.filter(WordChain.countHopAway(string, _) == 1).toSet
   }
 
-  def chainExists(start: String, end: String) : Boolean = {
+  def chainExists(start: String, end: String): Boolean = {
 //    val filterdDictionary: List[String] = dictionary.filter(_.length == start.length)
     def _chainExists(start: String, visited: Set[String]): Boolean = {
       val newVisited: Set[String] = visited ++ Set(start)
@@ -22,21 +19,16 @@ class WordChain(dictionary: List[String]) {
       else start.equals(end) || adjacentList(start).diff(visited).exists((x) => _chainExists(x, newVisited))
 
     }
-
-    _chainExists(start, visited=Set())
+    _chainExists(start, visited = Set())
   }
-
 }
 
 object WordChain {
-  def apply(dictionary: List[String]): WordChain = {
-
+  def apply(dictionary: List[String]): WordChain =
     new WordChain(dictionary)
-  }
 
-  def readDictionary(): List[String] = {
+  def readDictionary(): List[String] =
     Source.fromFile("/words.dat").getLines.toList
-  }
 
   def countHopAway(a: String, b: String, i: Int = 0, count: Int = 0): Int = {
 
@@ -53,9 +45,7 @@ object WordChain {
     val augmentedB = bList.zipWithIndex.map {
       case (c, i) => if (i == at) aList(at) else c
     }
-
     augmentedB.mkString
-
   }
 
 }
