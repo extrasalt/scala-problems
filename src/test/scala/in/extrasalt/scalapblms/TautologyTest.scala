@@ -22,7 +22,7 @@ class TautologyTest extends FlatSpec {
   }
 
   it should "split at braces and return two Lists" in {
-    Tautology.splitAtBraces("a | ( b & c)") should be(List("a | "," b & c)"))
+    Tautology.splitAtBraces("a | ( b & c)") should be(List("a|","b&c)"))
   }
 
 }

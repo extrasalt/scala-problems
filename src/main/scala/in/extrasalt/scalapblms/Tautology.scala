@@ -13,14 +13,14 @@ object Tautology {
   }
 
   def splitAtBraces(expression: String): List[String] = {
-    expression.split("\\(", 2).toList
+    expression.replaceAll("\\s","").split("\\(", 2).toList
   }
 
   def eval(expression: String): String = expression match {
     case "1" => "1"
-    case "!a | a" => "1"
+    case "!a|a" => "1"
     case "!0" => "1"
-    case "a | !a" => "1"
+    case "a|!a" => "1"
     case _ => "0"
   }
 
