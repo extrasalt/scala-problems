@@ -2,32 +2,37 @@ package in.extrasalt.scalapblms
 
 import scala.io.Source
 
-class WordChain(start: String, end: String, dictionary: List[String]) {
+class WordChain(dictionary: List[String]) {
 
-  val filterdDictionary: List[String] = dictionary.filter(_.length == start.length)
 
-  def adjacentList: Map[String, List[String]] = {
+  val adjacentList: Map[String, Set[String]] = {
 
-    this.filterdDictionary.map((x) => x -> getAdjacentElements(x)).toMap
+    dictionary.map((x) => x -> getAdjacentElements(x)).toMap
   }
 
-  def getAdjacentElements(string: String): List[String] = {
-    filterdDictionary.filter(WordChain.countHopAway(string, _) == 1)
+  def getAdjacentElements(string: String): Set[String] = {
+    dictionary.filter(WordChain.countHopAway(string, _) == 1).toSet
   }
 
-  def chainExists(start: String = start, visited: Set[String] = Set()): Boolean = {
-    if(visited.contains(start)) return false
-    val newVisited : Set[String] = visited ++ Set(start)
-    if (start.length != end.length) false
-    else if (start.equals(end)) true
-    else if (adjacentList(start).toSet.subsetOf(visited)) false
-    else adjacentList(start).exists((x)=>chainExists(x,newVisited))
+  def chainExists(start: String, end: String) : Boolean = {
+//    val filterdDictionary: List[String] = dictionary.filter(_.length == start.length)
+    def _chainExists(start: String, visited: Set[String]): Boolean = {
+      val newVisited: Set[String] = visited ++ Set(start)
+      if (start.length != end.length) false
+      else start.equals(end) || adjacentList(start).diff(visited).exists((x) => _chainExists(x, newVisited))
 
+    }
+
+    _chainExists(start, visited=Set())
   }
 
 }
 
 object WordChain {
+  def apply(dictionary: List[String]): WordChain = {
+
+    new WordChain(dictionary)
+  }
 
   def readDictionary(): List[String] = {
     Source.fromFile("/words.dat").getLines.toList
