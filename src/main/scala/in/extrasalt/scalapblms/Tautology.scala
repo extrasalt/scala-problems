@@ -15,7 +15,7 @@ object Tautology {
   }
 
   def splitAtOpeningBraces(expression: String): List[String] = {
-    expression.split("\\(", 2).toList
+    expression.split("\\(", 2).toList.filter(_.nonEmpty)
   }
 
   def splitAtClosingBraces(expression: String): List[String] = {
