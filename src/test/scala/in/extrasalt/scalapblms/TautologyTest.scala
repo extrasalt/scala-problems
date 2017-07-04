@@ -12,31 +12,13 @@ class TautologyTest extends FlatSpec {
     Tautology.isVariableCountBalanced("(a&b)|(a|b)") should be(true)
   }
 
-  it should "evaluate and return 1 for tautological cases" in {
-    Tautology.eval("a|!a") should be("1")
-    Tautology.eval("!a|a") should be("1")
-  }
-
-  it should "split at opening braces and return two Lists" in {
-    Tautology.splitAtOpeningBraces("a|(b&c)") should be(List("a|","b&c)"))
-  }
-
-  it should "split at closing braces and return two lists" in {
-    Tautology.splitAtClosingBraces("b&c)d)") should be(List("b&c","d)"))
-    Tautology.splitAtClosingBraces("d)") should be(List("d"))
-  }
-
   it should "convert infix to postfix when expression has no braces" in {
     Tautology.convertToPostfix("a&b") should be("ab&")
-    Tautology.convertToPostfix("a&b|c") should be("ab&c|")
+    Tautology.convertToPostfix("a&b|c") should be("abc|&")
   }
 
-  "isTautology" should "return false if variable count is unbalanced" in {
-    Tautology.isTautology("a|(b|c)") should be(false)
-  }
-
-  "eval" should "correctly simplify nested expressions" in {
-    Tautology.eval("(a|(b&c))") should be("0")
+  it should "convert infix to postfix when expression has braces" in {
+    Tautology.convertToPostfix("a&(b|c)") should be("abc|&")
   }
 
 }

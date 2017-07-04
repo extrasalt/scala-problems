@@ -1,17 +1,34 @@
 package in.extrasalt.scalapblms
 
+import java.util.NoSuchElementException
+
 object Tautology {
-  val varSet = Set('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j')
-  val opSet  = Set('!', '&', '|')
+
+  def popUntilOpening(stack: List[Char],
+                      infix: List[Char],
+                      postfix: List[Char],
+                      eval: (List[Char], List[Char], List[Char]) => List[Char]): List[Char] = {
+    if (stack.head == '(') {
+      eval(stack.tail, infix, postfix)
+    } else {
+      popUntilOpening(stack.tail, infix, postfix :+ stack.head, eval)
+    }
+  }
 
   def convertToPostfix(expression: String): String = {
     val list = expression.replaceAll("\\s", "").toList
 
     def eval(stack: List[Char], infix: List[Char], postfix: List[Char]): List[Char] = {
-      if (infix.isEmpty) postfix ::: stack
-      else if (varSet.contains(infix.head))
-        eval(stack, infix.tail, postfix :+ infix.head)
-      else eval(List(infix.head), infix.tail, postfix ::: stack)
+      if (infix.isEmpty) {
+        postfix ::: stack
+      } else {
+        infix.head match {
+          case 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' =>
+            eval(stack, infix.tail, postfix :+ infix.head)
+          case '&' | '|' | '!' | '(' => eval(infix.head :: stack, infix.tail, postfix)
+          case ')'                   => popUntilOpening(stack, infix.tail, postfix, eval)
+        }
+      }
     }
 
     eval(stack = List(), list, postfix = List()).mkString("")
@@ -26,47 +43,5 @@ object Tautology {
       .values
       .toSet
       .contains(1)
-
-  def isTautology(expression: String): Boolean = {
-    if (isVariableCountBalanced(expression)) {
-      true
-    } else {
-      //TODO: Implement logic using eval function
-      false
-    }
-  }
-
-  def splitAtOpeningBraces(expression: String): List[String] = {
-    expression.split("\\(", 2).toList.filter(_.nonEmpty)
-  }
-
-  def splitAtClosingBraces(expression: String): List[String] = {
-    expression.split("\\)", 2).toList.filter(_.nonEmpty)
-  }
-
-  def eval(expression: String): String = {
-    val trimmedExpression = expression.replaceAll("\\s", "")
-    if (trimmedExpression.contains("\\(")) {
-      val splitList = splitAtOpeningBraces(trimmedExpression)
-      eval(splitList.head.concat(eval(splitList(1))))
-    } else if (trimmedExpression.contains("\\)")) {
-      val splitList = splitAtClosingBraces(trimmedExpression)
-      eval(eval(splitList.head).concat(splitList(1)))
-    } else {
-      trimmedExpression match {
-        case "1"    => "1"
-        case "!a|a" => "1"
-        case "1|1"  => "1"
-        case "a|1"  => "1"
-        case "1&1"  => "1"
-        case "1|a"  => "1"
-        case "!0"   => "1"
-        case "a|!a" => "1"
-        case "a"    => "a"
-        case "!a"   => "!a"
-        case _      => "0"
-      }
-    }
-  }
 
 }
