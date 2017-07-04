@@ -1,6 +1,21 @@
 package in.extrasalt.scalapblms
 
 object Tautology {
+  val varSet = Set('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j')
+  val opSet  = Set('!', '&', '|')
+
+  def convertToPostfix(expression: String): String = {
+    val list = expression.replaceAll("\\s", "").toList
+
+    def eval(stack: List[Char], infix: List[Char], postfix: List[Char]): List[Char] = {
+      if (infix.isEmpty) postfix ::: stack
+      else if (varSet.contains(infix.head))
+        eval(stack, infix.tail, postfix :+ infix.head)
+      else eval(infix.head :: stack, infix.tail, postfix)
+    }
+
+    eval(stack = List(), list, postfix = List()).mkString("")
+  }
 
   def isVariableCountBalanced(expression: String): Boolean =
     !expression

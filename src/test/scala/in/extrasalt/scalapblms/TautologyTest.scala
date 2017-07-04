@@ -26,6 +26,10 @@ class TautologyTest extends FlatSpec {
     Tautology.splitAtClosingBraces("d)") should be(List("d"))
   }
 
+  it should "convert infix to postfix when expression has no braces" in {
+    Tautology.convertToPostfix("a&b") should be("ab&")
+  }
+
   "isTautology" should "return false if variable count is unbalanced" in {
     Tautology.isTautology("a|(b|c)") should be(false)
   }
