@@ -22,4 +22,22 @@ class TautologyTest extends FlatSpec {
     Tautology.convertToPostfix("(a&b)|c") should be("ab&c|")
   }
 
+  it should "generate a truth table for 2 variables" in {
+    val truthTable = TruthTable.generateTruthTable(Set("a", "b", "c"))
+    truthTable should contain(Map("a" -> true, "b"  -> true, "c"  -> true))
+    truthTable should contain(Map("a" -> true, "b"  -> false, "c" -> true))
+    truthTable should contain(Map("a" -> false, "b" -> true, "c"  -> true))
+    truthTable should contain(Map("a" -> false, "b" -> false, "c" -> true))
+    truthTable should contain(Map("a" -> true, "b"  -> true, "c"  -> false))
+    truthTable should contain(Map("a" -> true, "b"  -> false, "c" -> false))
+    truthTable should contain(Map("a" -> false, "b" -> true, "c"  -> false))
+    truthTable should contain(Map("a" -> false, "b" -> false, "c" -> false))
+  }
+
+  it should "generate a truth table for one variable" in {
+    val truthTable = TruthTable.generateTruthTable(Set("a"))
+    truthTable should contain(Map("a" -> true))
+    truthTable should contain(Map("a" -> false))
+  }
+
 }

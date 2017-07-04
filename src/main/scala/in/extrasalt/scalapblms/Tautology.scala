@@ -79,3 +79,25 @@ object Tautology {
       .contains(1)
 
 }
+
+object TruthTable {
+  def getVariables(expression: String): List[String] = {
+    expression
+      .replaceAll("[&|\\|\\(\\)\\!]", "")
+      .map((x) => x.toString)
+      .toList
+  }
+
+  def generateTruthTable(variables: Set[String]): List[Map[String, Boolean]] = {
+    if(variables.size ==1) {
+      List(Map(variables.head->true), Map(variables.head->false))
+    } else {
+      generateTruthTable(Set(variables.head)).flatMap{row =>
+        generateTruthTable(variables.tail).map(row ++ _)
+      }
+    }
+  }
+  val truthTable: Map[String, String] = Set(true, false)
+    .flatMap((i) => Set(true, false).map((j) => (i.toString + "&" + j.toString) -> (i && j).toString))
+    .toMap
+}
