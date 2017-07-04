@@ -19,6 +19,7 @@ class TautologyTest extends FlatSpec {
 
   it should "convert infix to postfix when expression has braces" in {
     Tautology.convertToPostfix("a&(b|c)") should be("abc|&")
+    Tautology.convertToPostfix("(a&b)|c") should be("ab&c|")
   }
 
 }
