@@ -11,7 +11,7 @@ object Tautology {
       if (infix.isEmpty) postfix ::: stack
       else if (varSet.contains(infix.head))
         eval(stack, infix.tail, postfix :+ infix.head)
-      else eval(infix.head :: stack, infix.tail, postfix)
+      else eval(List(infix.head), infix.tail, postfix ::: stack)
     }
 
     eval(stack = List(), list, postfix = List()).mkString("")

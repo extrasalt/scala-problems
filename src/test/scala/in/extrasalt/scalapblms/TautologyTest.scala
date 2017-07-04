@@ -28,6 +28,7 @@ class TautologyTest extends FlatSpec {
 
   it should "convert infix to postfix when expression has no braces" in {
     Tautology.convertToPostfix("a&b") should be("ab&")
+    Tautology.convertToPostfix("a&b|c") should be("ab&c|")
   }
 
   "isTautology" should "return false if variable count is unbalanced" in {
