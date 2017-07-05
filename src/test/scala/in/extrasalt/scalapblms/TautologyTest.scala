@@ -20,6 +20,7 @@ class TautologyTest extends FlatSpec {
   it should "convert infix to postfix when expression has braces" in {
     Tautology.convertToPostfix("a&(b|c)") should be("abc|&")
     Tautology.convertToPostfix("(a&b)|c") should be("ab&c|")
+    Tautology.convertToPostfix("a|!a") should be("aa!|")
   }
 
   it should "generate a truth table for 2 variables" in {
@@ -38,6 +39,11 @@ class TautologyTest extends FlatSpec {
     val truthTable = TruthTable.generateTruthTable(Set("a"))
     truthTable should contain(Map("a" -> true))
     truthTable should contain(Map("a" -> false))
+  }
+
+  it should "evaluate postfix expression" in {
+    Tautology.evaluatePostfix("abc|&") should be(false)
+    Tautology.evaluatePostfix("aa!|") should be(true)
   }
 
 }

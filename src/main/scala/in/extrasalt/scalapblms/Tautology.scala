@@ -34,37 +34,59 @@ object Tautology {
     eval(stack = List(), list, postfix = List()).mkString("")
   }
 
-  def handleOp(operator: Char,
-               stack: List[Char],
-               tail: List[Char],
-               eval: (List[Char], List[Char]) => List[Char]): List[Char] = {
-    val a        = stack.tail.head
-    val b        = stack.head
+  def handleOp(operator: String,
+               stack: List[String],
+               tail: List[String],
+               eval: (List[String], List[String]) => List[String]): List[String] = {
+    val a        = stack.tail.head.toBoolean
+    val b        = stack.head.toBoolean
     val newStack = stack.tail.tail
 
     val opresult = operator match {
-      case '&' => '1'
-      case '|' => '1'
+      case "&" => (a && b).toString
+      case "|" => (a || b).toString
     }
-    //TODO: Evaluate a op b
 
     eval(newStack, opresult :: tail)
   }
 
-  def evaluatePostfix(expression: String): String = {
-    val list = expression.toList
+  def handleNot(stack: List[String], tail: List[String], eval: (List[String], List[String]) => List[String]): List[String] = {
+    val a = stack.head.toBoolean
+    val newStack = stack.tail
 
-    def eval(stack: List[Char], postfix: List[Char]): List[Char] = {
-      postfix.head match {
-        case 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' =>
-          eval(postfix.head :: stack, postfix.tail)
-        case '&' => handleOp('&', stack, postfix.tail, eval)
-        case '|' => handleOp('|', stack, postfix.tail, eval)
+    val opresult = (!a).toString
 
+    eval(newStack, opresult::tail)
+  }
+
+  def evalExpression(expression: String, row: Map[String, Boolean]): Boolean = {
+    val processedList = expression.toList.map(_.toString).map((x)=> if(row.contains(x)) row(x).toString else x)
+
+    def eval(stack : List[String], expression: List[String]): List[String] = {
+      if(expression.size == 1) return expression
+
+      expression.head match {
+        case "true" | "false" => eval(expression.head :: stack, expression.tail)
+        case "&" | "|" => handleOp(expression.head, stack,expression.tail, eval)
+        case "!" => handleNot(stack, expression.tail, eval)
       }
     }
+    if(eval(stack=List(), processedList) == List("true")) true else false
+  }
 
-    eval(stack = List(), list).mkString("")
+  def evaluatePostfix(expression: String): Boolean = {
+    val varSet = expression
+      .replaceAll("[&|\\|\\(\\)\\!]", "")
+      .map((x) => x.toString)
+      .toSet
+
+    val truthTable = TruthTable.generateTruthTable(varSet)
+
+    def eval(tt: List[Map[String, Boolean]]): Boolean = {
+      tt.forall((x) => evalExpression(expression,x))
+    }
+
+    eval(truthTable)
 
   }
 
@@ -81,23 +103,20 @@ object Tautology {
 }
 
 object TruthTable {
-  def getVariables(expression: String): List[String] = {
+  def getVariables(expression: String): Set[String] = {
     expression
       .replaceAll("[&|\\|\\(\\)\\!]", "")
       .map((x) => x.toString)
-      .toList
+      .toSet
   }
 
   def generateTruthTable(variables: Set[String]): List[Map[String, Boolean]] = {
-    if(variables.size ==1) {
-      List(Map(variables.head->true), Map(variables.head->false))
+    if (variables.size == 1) {
+      List(Map(variables.head -> true), Map(variables.head -> false))
     } else {
-      generateTruthTable(Set(variables.head)).flatMap{row =>
+      generateTruthTable(Set(variables.head)).flatMap { row =>
         generateTruthTable(variables.tail).map(row ++ _)
       }
     }
   }
-  val truthTable: Map[String, String] = Set(true, false)
-    .flatMap((i) => Set(true, false).map((j) => (i.toString + "&" + j.toString) -> (i && j).toString))
-    .toMap
 }
