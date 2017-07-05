@@ -38,7 +38,7 @@ class TautologyTest extends FlatSpec {
 
   it should "evaluate postfix expression" in {
     Tautology.evaluatePostfix("abc|&") should be(false)
-//    Tautology.evaluatePostfix("aa!|") should be(true)
+    Tautology.evaluatePostfix("aa!|") should be(true)
   }
 
 }

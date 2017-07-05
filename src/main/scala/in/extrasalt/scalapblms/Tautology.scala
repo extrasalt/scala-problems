@@ -37,7 +37,7 @@ object Tautology {
   def handleOp(operator: String,
                stack: List[String],
                tail: List[String],
-               eval: (List[String], List[String]) => List[String]): List[String] = {
+               eval: (List[String], List[String]) => Boolean): Boolean = {
     val a        = stack.tail.head.toBoolean
     val b        = stack.head.toBoolean
     val newStack = stack.tail.tail
@@ -50,7 +50,7 @@ object Tautology {
     eval(newStack, opresult :: tail)
   }
 
-  def handleNot(stack: List[String], tail: List[String], eval: (List[String], List[String]) => List[String]): List[String] = {
+  def handleNot(stack: List[String], tail: List[String], eval: (List[String], List[String]) => Boolean): Boolean = {
     val a = stack.head.toBoolean
     val newStack = stack.tail
 
@@ -59,19 +59,19 @@ object Tautology {
     eval(newStack, opresult::tail)
   }
 
-  def evalExpression(expression: String, row: Map[String, Boolean]): Boolean = {
+  def evalExpWithRow(expression: String, row: Map[String, Boolean]): Boolean = {
     val processedList = expression.toList.map(_.toString).map((x)=> if(row.contains(x)) row(x).toString else x)
 
-    def eval(stack : List[String], expression: List[String]): List[String] = {
-      if(expression.size == 1) return expression
-
+    def eval(stack : List[String], expression: List[String]): Boolean = {
+      if(expression.isEmpty) return stack.head.toBoolean
       expression.head match {
         case "true" | "false" => eval(expression.head :: stack, expression.tail)
         case "&" | "|" => handleOp(expression.head, stack,expression.tail, eval)
         case "!" => handleNot(stack, expression.tail, eval)
       }
     }
-    if(eval(stack=List(), processedList) == List("true")) true else false
+
+    eval(List(),processedList)
   }
 
   def evaluatePostfix(expression: String): Boolean = {
@@ -83,7 +83,7 @@ object Tautology {
     val truthTable = TruthTable.generateTruthTable(varSet)
 
     def eval(tt: List[Map[String, Boolean]]): Boolean = {
-      tt.forall((x) => evalExpression(expression,x))
+      tt.forall((x) => evalExpWithRow(expression,x))
     }
 
     eval(truthTable)
