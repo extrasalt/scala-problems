@@ -90,16 +90,6 @@ object Tautology {
 
   }
 
-  def isVariableCountBalanced(expression: String): Boolean =
-    !expression
-      .replaceAll("[&|\\|\\(\\)\\!]", "")
-      .toList
-      .groupBy((x) => x)
-      .mapValues(_.size)
-      .values
-      .toSet
-      .contains(1)
-
 }
 
 object TruthTable {
