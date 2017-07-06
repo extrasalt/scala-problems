@@ -38,4 +38,14 @@ class ScrabbleProblemTest extends FlatSpec {
       ScrabbleProblem.getWordValue("indix", scoreMap) should be(13)
     }
 
+    "Scrabble board" should "have a proper count of all modifiers" in {
+      ScrabbleProblem.scrabbleBoard.values.count((x) => x == "triple word") should be(8)
+      ScrabbleProblem.scrabbleBoard.values.count((x) => x == "triple letter") should be(12)
+      ScrabbleProblem.scrabbleBoard.values.count((x) => x == "double word") should be(16)
+      ScrabbleProblem.scrabbleBoard.values.count((x) => x == "double letter") should be(24)
+
+
+    }
+
+
 }
