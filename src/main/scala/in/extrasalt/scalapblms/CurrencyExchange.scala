@@ -35,4 +35,16 @@ object CurrencyExchange {
     loop(roman.toList, 0)
 
   }
+
+  def parse(statement: String, dictionary: Map[String, Char]): String = {
+    val metricSet = dictionary.keySet
+    val thingSet = Set("Silver", "Gold", "Iron")
+    val romanValue = statement.split(" ").filter(metricSet).map((x) => dictionary(x)).toString
+
+    val thing = statement.split(" ").filter(thingSet)
+
+    if(romanValue.isEmpty || thing.isEmpty) return "I have no idea what you are talking about"
+    //TODO: Multiply by value of the thing
+    convert(romanValue).toString
+  }
 }

@@ -24,5 +24,4 @@ class ScrabbleProblemTest extends FlatSpec {
     ScrabbleProblem.getWordValue("indix", modifiedMap) should be(45)
     ScrabbleProblem.getWordValue("unconsciousness", modifiedMap2) should be(648)
   }
-
 }
