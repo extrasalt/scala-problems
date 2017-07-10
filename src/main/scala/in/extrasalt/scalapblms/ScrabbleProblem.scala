@@ -48,22 +48,27 @@ object ScrabbleProblem {
     List("TW", "NL", "NL", "DL", "NL", "NL", "NL", "TW", "NL", "NL", "NL", "DL", "NL", "NL", "TW")
   )
 
-  def modify(string: String, scoreMap: Map[Char, Int]): Map[Char, Int] = {
+  def modify(string: String, scoreMap: Map[Char, Int], position: (Int, Int), direction: String): Map[Char, Int] = {
+    val directionModifier = direction match {
+      case "R" => 1
+      case "D" => -1
+    }
 
     def loop(string: String, scoreMap: Map[Char, Int], position: (Int, Int)): Map[Char, Int] = {
+
       if (string.isEmpty) return scoreMap
       scrabbleBoard(position._1)(position._2) match {
-        case "DW" => loop(string.tail, scoreMap.map { case (c, i) => (c, i * 2) }, (position._1 + 1, position._2))
-        case "TW" => loop(string.tail, scoreMap.map { case (c, i) => (c, i * 3) }, (position._1 + 1, position._2))
-        case "NL" => loop(string.tail, scoreMap, (position._1 + 1, position._2))
+        case "DW" => loop(string.tail, scoreMap.map { case (c, i) => (c, i * 2) }, (position._1 + directionModifier *1, position._2))
+        case "TW" => loop(string.tail, scoreMap.map { case (c, i) => (c, i * 3) }, (position._1 + directionModifier *1, position._2))
+        case "NL" => loop(string.tail, scoreMap, (position._1 +  directionModifier * 1, position._2))
         case "DL" =>
           loop(string.tail,
                scoreMap.map { case (c, i) => if (c == string.head) (c, i * 2) else (c, i) },
-               (position._1 + 1, position._2))
+               (position._1 + directionModifier*1, position._2))
         case "TL" =>
           loop(string.tail,
                scoreMap.map { case (c, i) => if (c == string.head) (c, i * 3) else (c, i) },
-               (position._1 + 1, position._2))
+               (position._1 + directionModifier*1, position._2))
       }
 
     }
