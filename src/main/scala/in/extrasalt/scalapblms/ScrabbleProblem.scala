@@ -54,6 +54,7 @@ object ScrabbleProblem {
       case "D" => -1
     }
 
+
     def loop(string: String, scoreMap: Map[Char, Int], position: (Int, Int)): Map[Char, Int] = {
 
       if (string.isEmpty) return scoreMap
@@ -72,7 +73,12 @@ object ScrabbleProblem {
       }
 
     }
-    loop(string, scoreMap, (0, 0))
+
+    val newPosition = direction match {
+      case "R" => position
+      case "D" => (position._2, position._1)
+    }
+    loop(string, scoreMap, newPosition)
   }
 
   def getWordValue(string: String, scoreMap: Map[Char, Int]): Int = {
