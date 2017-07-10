@@ -16,19 +16,19 @@ object CurrencyExchange {
 
     def loop(roman: List[Char], acc: Int): Int = roman match {
       case Nil => acc
-      case a::b::tail if a=='I' && b =='V' => loop(tail,acc+4)
-      case a::b::tail if a=='I' && b == 'X' => loop(tail, acc+9)
-      case a::b::tail if a=='X' && b == 'L' => loop(tail, acc+40)
-      case a::b::tail if a=='X' && b == 'C' => loop(tail, acc+90)
-      case a::b::tail if a=='C' && b == 'D' => loop(tail, acc+400)
-      case a::b::tail if a=='C' && b == 'M' => loop(tail, acc+900)
-      case a::tail if a=='I' => loop(tail,acc+1)
-      case a::tail if a=='V' => loop(tail,acc+5)
-      case a::tail if a=='X' => loop(tail,acc+10)
-      case a::tail if a=='L' => loop(tail,acc+50)
-      case a::tail if a=='C' => loop(tail,acc+100)
-      case a::tail if a=='D' => loop(tail,acc+500)
-      case a::tail if a=='M' => loop(tail,acc+1000)
+      case 'I'::'V'::tail => loop(tail,acc+4)
+      case 'I'::'X'::tail => loop(tail, acc+9)
+      case 'X'::'L'::tail => loop(tail, acc+40)
+      case 'X'::'C'::tail => loop(tail, acc+90)
+      case 'C'::'D'::tail => loop(tail, acc+400)
+      case 'C'::'M'::tail => loop(tail, acc+900)
+      case 'I'::tail => loop(tail,acc+1)
+      case 'V'::tail => loop(tail,acc+5)
+      case 'X'::tail => loop(tail,acc+10)
+      case 'L'::tail => loop(tail,acc+50)
+      case 'C'::tail => loop(tail,acc+100)
+      case 'D'::tail => loop(tail,acc+500)
+      case 'M'::tail => loop(tail,acc+1000)
 
     }
 
