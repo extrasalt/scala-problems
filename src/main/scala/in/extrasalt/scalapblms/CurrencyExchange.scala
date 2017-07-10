@@ -14,21 +14,26 @@ object CurrencyExchange {
 //    "X" can be subtracted from "L" and "C" only.
 //    "C" can be subtracted from "D" and "M" only.
 
+    val valueMap: Map[String, Int] = Map(
+      "IV" -> 4,
+      "IX" -> 9,
+      "XL" -> 40,
+      "XC" -> 90,
+      "CD" -> 400,
+      "CM" -> 900,
+      "I" -> 1,
+      "V" -> 5,
+      "X" -> 10,
+      "L" ->  50,
+      "C" -> 100,
+      "D" -> 500,
+      "M" -> 1000
+    )
+
     def loop(roman: List[Char], acc: Int): Int = roman match {
       case Nil => acc
-      case 'I'::'V'::tail => loop(tail,acc+4)
-      case 'I'::'X'::tail => loop(tail, acc+9)
-      case 'X'::'L'::tail => loop(tail, acc+40)
-      case 'X'::'C'::tail => loop(tail, acc+90)
-      case 'C'::'D'::tail => loop(tail, acc+400)
-      case 'C'::'M'::tail => loop(tail, acc+900)
-      case 'I'::tail => loop(tail,acc+1)
-      case 'V'::tail => loop(tail,acc+5)
-      case 'X'::tail => loop(tail,acc+10)
-      case 'L'::tail => loop(tail,acc+50)
-      case 'C'::tail => loop(tail,acc+100)
-      case 'D'::tail => loop(tail,acc+500)
-      case 'M'::tail => loop(tail,acc+1000)
+      case a::b::tail if valueMap.keySet(a.toString+b.toString) => loop(tail, acc+valueMap(a.toString+b.toString))
+      case a::tail => loop(tail, acc+valueMap(a.toString))
 
     }
 
