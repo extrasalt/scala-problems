@@ -1,6 +1,15 @@
 package in.extrasalt.scalapblms
 
 object Barter {
+  def findRatio(expression: String, valuesMap: Map[String, Double]) = {
+    val wordList = expression.split(" ")
+    val itemA = wordList(1)
+    val itemB = wordList(3)
+
+    (valuesMap(itemB)/valuesMap(itemA)).round.toInt
+
+  }
+
   def createStockExchange(strings: List[String]) = {
     //Assume the first object on LHS costs 1000 amic
 
