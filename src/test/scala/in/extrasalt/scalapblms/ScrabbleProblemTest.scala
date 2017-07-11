@@ -21,7 +21,9 @@ class ScrabbleProblemTest extends FlatSpec {
   it should "modify score map for positive direction" in {
     val modifiedMap  = ScrabbleProblem.modify("indix", ScrabbleProblem.defaultScoreMap, (0,0), "R")
     val modifiedMap2 = ScrabbleProblem.modify("unconsciousness", ScrabbleProblem.defaultScoreMap,(0,0), "R")
+    val modifiedMap3 = ScrabbleProblem.modify("indix", ScrabbleProblem.defaultScoreMap,(1,1), "R")
     ScrabbleProblem.getWordValue("indix", modifiedMap) should be(45)
+    ScrabbleProblem.getWordValue("indix", modifiedMap3) should be(58)
     ScrabbleProblem.getWordValue("unconsciousness", modifiedMap2) should be(648)
   }
 
