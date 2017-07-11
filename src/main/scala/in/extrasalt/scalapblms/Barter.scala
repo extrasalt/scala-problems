@@ -1,12 +1,30 @@
 package in.extrasalt.scalapblms
 
+class AssertionStatement(string: String) {
+  private val _wordList = string.split(" ")
+
+  val itemA: String = _wordList(2)
+  val itemACount: Double = _wordList(1).toDouble
+  val itemB: String = _wordList(5)
+  val itemBCount: Double = _wordList(4).toDouble
+
+  def priceOfItemB(valuesMap: Map[String, Double]): Double = {
+    (itemACount/itemBCount)*valuesMap(itemA)
+  }
+}
+
+class QuestionStatement(string: String){
+  private val _wordList = string.split(" ")
+
+  val itemA: String = _wordList(1)
+  val itemB: String = _wordList(3)
+}
+
 object Barter {
   def findRatio(expression: String, valuesMap: Map[String, Double]) = {
-    val wordList = expression.split(" ")
-    val itemA = wordList(1)
-    val itemB = wordList(3)
+   val statement = new QuestionStatement(expression)
 
-    (valuesMap(itemB)/valuesMap(itemA)).round.toInt
+    (valuesMap(statement.itemB)/valuesMap(statement.itemA)).round.toInt
 
   }
 
@@ -17,10 +35,9 @@ object Barter {
       if(strings.isEmpty) {
         valuesMap
       } else {
-        val wordList = strings.head.split(" ")
-        val itemB = wordList(5)
-        val priceOfItemB = (wordList(1).toDouble / wordList(4).toDouble) * valuesMap(wordList(2))
-        val newValuesMap = valuesMap + (itemB -> priceOfItemB)
+        val statement = new AssertionStatement(strings.head)
+        val priceOfItemB = statement.priceOfItemB(valuesMap)
+        val newValuesMap = valuesMap + (statement.itemB -> priceOfItemB)
         loop(strings.tail, newValuesMap)
       }
     }
@@ -32,7 +49,7 @@ object Barter {
   }
 
   def parseInput(strings: List[String]) : List[Int] = {
-    val (assertions, questions) = strings.partition(_.toList.head == '!')
+    val (assertions, questions) = strings.partition(_.startsWith("!"))
     val valuesMap = createStockExchange(assertions)
     questions.map((x) => findRatio(x, valuesMap))
   }
