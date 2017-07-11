@@ -39,7 +39,7 @@ object CurrencyExchange {
     val thingSet  = Set("Silver", "Gold", "Iron")
 
     val statementList: List[String] = statement.split(" ").toList.filter(_ != "?")
-    val romanValue                  = statement.split(" ").filter(metricSet).map((x) => dictionary(x)).mkString("")
+    val romanValue: String          = statement.split(" ").filter(metricSet).map((x) => dictionary(x)).mkString("")
 
     val thing = statement.split(" ").filter(thingSet).toList
 

@@ -9,8 +9,8 @@ class BarterTest extends FlatSpec {
     Barter.createStockExchange(List("! 4 potatoes = 5 tomatoes")) should be(Map("potatoes" -> 1000.0, "tomatoes" -> 800.0))
   }
 
-  "Barter" should "return the count of one product in terms of another product" in {
-    Barter.findRatio("? potatoes = tomatoes",Map("potatoes" -> 1000.0, "tomatoes" -> 800.0)) should be(1)
+  "QuestionStatement" should "return the value of one product in terms of another product using a given map" in {
+    new QuestionStatement("? potatoes = tomatoes").findRatio(Map("potatoes" -> 1000.0, "tomatoes" -> 800.0)) should be(1)
   }
 
   "Barter" should "parse a list of inputs and return a list of inputs" in {
