@@ -30,5 +30,6 @@ class RoverTest extends FlatSpec {
 
   it should "come back to the same direction after 4 turns" in {
     Rover(0, 0, "E").handleInputString("LLLL").position() should be("0 0 E")
+    Rover(0, 0, "E").handleInputString("RRRR").position() should be("0 0 E")
   }
 }
