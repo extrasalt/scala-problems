@@ -13,4 +13,8 @@ class BarterTest extends FlatSpec {
     Barter.findRatio("? potatoes = tomatoes",Map("potatoes" -> 1000.0, "tomatoes" -> 800.0)) should be(1)
   }
 
+  "Barter" should "parse a list of inputs and return a list of inputs" in {
+    Barter.parseInput(List("! 4 potatoes = 5 tomatoes", "! 2 potatoes = 10 bananas", "? bananas = potatoes", "? bananas = tomatoes")) should be(List(5,4))
+  }
+
 }

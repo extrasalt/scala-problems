@@ -30,4 +30,10 @@ object Barter {
     loop(strings, InitialValuesMap)
 
   }
+
+  def parseInput(strings: List[String]) : List[Int] = {
+    val (assertions, questions) = strings.partition(_.toList.head == '!')
+    val valuesMap = createStockExchange(assertions)
+    questions.map((x) => findRatio(x, valuesMap))
+  }
 }
