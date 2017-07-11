@@ -27,9 +27,6 @@ object WordChain {
   def apply(dictionary: List[String]): WordChain =
     new WordChain(dictionary)
 
-  def readDictionary(): List[String] =
-    Source.fromFile("/words.dat").getLines.toList
-
   def countHopAway(a: String, b: String, i: Int = 0, count: Int = 0): Int = {
 
     if (i == a.length) { return count }
