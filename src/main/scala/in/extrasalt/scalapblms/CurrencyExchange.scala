@@ -36,15 +36,15 @@ object CurrencyExchange {
 
   def parse(statement: String, dictionary: Map[String, Char], rateDictionary: Map[String, Int]): String = {
     val metricSet = dictionary.keySet
-    val thingSet  = Set("Silver", "Gold", "Iron")
+    val thingSet  = rateDictionary.keySet
 
-    val statementList: List[String] = statement.split(" ").toList.filter(_ != "?")
-    val romanValue: String          = statement.split(" ").filter(metricSet).map((x) => dictionary(x)).mkString("")
+    val romanValue: String = statement.split(" ").filter(metricSet).map((x) => dictionary(x)).mkString("")
 
     val thing = statement.split(" ").filter(thingSet).toList
 
     val thingValue: Int = if (thing.isEmpty) 1 else rateDictionary(thing.head)
 
+    val statementList: List[String] = statement.split(" ").toList.filter(_ != "?")
     statementList match {
       case "how" :: "much" :: "is" :: tail => tail.mkString(" ") + " is " + convert(romanValue)
       case "how" :: "many" :: "Credits" :: "is" :: tail =>
