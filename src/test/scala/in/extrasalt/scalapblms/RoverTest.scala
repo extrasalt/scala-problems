@@ -27,4 +27,8 @@ class RoverTest extends FlatSpec {
   it should "handle input in the form of a string" in {
     Rover(0, 0, "E").handleInputString("MMLM").position() should be("2 1 N")
   }
+
+  it should "come back to the same direction after 4 turns" in {
+    Rover(0, 0, "E").handleInputString("LLLL").position() should be("0 0 E")
+  }
 }
