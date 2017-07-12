@@ -8,14 +8,14 @@ class TautologyTest extends FlatSpec {
   behavior of "Tautology"
 
   it should "convert infix to postfix when expression has no braces" in {
-    Tautology.convertToPostfix("a&b") should be("ab&")
-    Tautology.convertToPostfix("a&b|c") should be("abc|&")
+    new Expression("a&b").postfix should be("ab&")
+    new Expression("a&b|c").postfix should be("abc|&")
   }
 
   it should "convert infix to postfix when expression has braces" in {
-    Tautology.convertToPostfix("a&(b|c)") should be("abc|&")
-    Tautology.convertToPostfix("(a&b)|c") should be("ab&c|")
-    Tautology.convertToPostfix("a|!a") should be("aa!|")
+    new Expression("a&(b|c)").postfix should be("abc|&")
+    new Expression("(a&b)|c").postfix should be("ab&c|")
+    new Expression("a|!a").postfix should be("aa!|")
   }
 
   it should "generate a truth table for 2 variables" in {
@@ -37,8 +37,8 @@ class TautologyTest extends FlatSpec {
   }
 
   it should "evaluate postfix expression" in {
-    Tautology.evaluatePostfix("abc|&") should be(false)
-    Tautology.evaluatePostfix("aa!|") should be(true)
+    new Postfix("abc|&").evaluate should be(false)
+    new Postfix("aa!|").evaluate should be(true)
   }
 
 }
