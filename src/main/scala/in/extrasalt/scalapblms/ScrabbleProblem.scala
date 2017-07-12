@@ -1,6 +1,25 @@
 package in.extrasalt.scalapblms
 
-object ScrabbleProblem {
+class Score(scoreMap: Map[Char, Int]) {
+  val dictionary = scoreMap
+  def DW: Score = {
+    new Score(scoreMap.map { case (c, i) => (c, i * 2) })
+  }
+
+  def TW: Score = {
+    new Score(scoreMap.map { case (c, i) => (c, i * 3) })
+  }
+
+  def DL(letter: Char): Score = {
+    new Score(scoreMap.map { case (c, i) => if (c == letter) (c, i * 2) else (c, i) })
+  }
+
+  def TL(letter: Char): Score = {
+    new Score(scoreMap.map { case (c, i) => if (c == letter) (c, i * 3) else (c, i) })
+  }
+}
+
+object Score{
   val defaultScoreMap: Map[Char, Int] = Map(
     'a' -> 1,
     'b' -> 3,
@@ -29,6 +48,10 @@ object ScrabbleProblem {
     'y' -> 4,
     'z' -> 10
   )
+}
+
+object ScrabbleProblem {
+
 
   val scrabbleBoard: List[List[String]] = List(
     List("TW", "NL", "NL", "DL", "NL", "NL", "NL", "TW", "NL", "NL", "NL", "DL", "NL", "NL", "TW"),
@@ -48,29 +71,25 @@ object ScrabbleProblem {
     List("TW", "NL", "NL", "DL", "NL", "NL", "NL", "TW", "NL", "NL", "NL", "DL", "NL", "NL", "TW")
   )
 
-  def modify(string: String, scoreMap: Map[Char, Int], position: (Int, Int), direction: String): Map[Char, Int] = {
+  def modify(string: String, scoreMap: Score, position: (Int, Int), direction: String): Score = {
     val directionModifier = direction match {
       case "R" => 1
       case "D" => -1
     }
 
-    def loop(string: String, scoreMap: Map[Char, Int], position: (Int, Int)): Map[Char, Int] = {
+    def loop(string: String, scores: Score, position: (Int, Int)): Score= {
 
       val (x, y) = position
 
-      if (string.isEmpty) return scoreMap
+      if (string.isEmpty) return scores
       scrabbleBoard(x)(y) match {
-        case "DW" => loop(string.tail, scoreMap.map { case (c, i) => (c, i * 2) }, (x + directionModifier * 1, y))
-        case "TW" => loop(string.tail, scoreMap.map { case (c, i) => (c, i * 3) }, (x + directionModifier * 1, y))
-        case "NL" => loop(string.tail, scoreMap, (x + directionModifier * 1, y))
+        case "DW" => loop(string.tail, scores.DW, (x + directionModifier * 1, y))
+        case "TW" => loop(string.tail, scores.TW, (x + directionModifier * 1, y))
+        case "NL" => loop(string.tail, scores, (x + directionModifier * 1, y))
         case "DL" =>
-          loop(string.tail,
-               scoreMap.map { case (c, i) => if (c == string.head) (c, i * 2) else (c, i) },
-               (x + directionModifier * 1, y))
+          loop(string.tail, scores.DL(string.head), (x + directionModifier * 1, y))
         case "TL" =>
-          loop(string.tail,
-               scoreMap.map { case (c, i) => if (c == string.head) (c, i * 3) else (c, i) },
-               (x + directionModifier * 1, y))
+          loop(string.tail, scores.TL(string.head), (x + directionModifier * 1, y))
       }
 
     }
@@ -82,8 +101,8 @@ object ScrabbleProblem {
     loop(string, scoreMap, newPosition)
   }
 
-  def getWordValue(string: String, scoreMap: Map[Char, Int]): Int = {
-    string.toList.map((x) => scoreMap(x)).sum
+  def getWordValue(string: String, scoreMap: Score): Int = {
+    string.toList.map((x) => scoreMap.dictionary(x)).sum
   }
 
 }
