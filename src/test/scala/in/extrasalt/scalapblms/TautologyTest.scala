@@ -18,7 +18,7 @@ class TautologyTest extends FlatSpec {
     new Expression("a|!a").postfix should be("aa!|")
   }
 
-  it should "generate a truth table for 2 variables" in {
+  it should "generate a truth table for 3 variables" in {
     val truthTable = TruthTable.generateTruthTable(Set("a", "b", "c"))
     truthTable should contain(Map("a" -> true, "b"  -> true, "c"  -> true))
     truthTable should contain(Map("a" -> true, "b"  -> false, "c" -> true))
@@ -37,8 +37,8 @@ class TautologyTest extends FlatSpec {
   }
 
   it should "evaluate postfix expression" in {
-    new Postfix("abc|&").evaluate should be(false)
-    new Postfix("aa!|").evaluate should be(true)
+    new Postfix("abc|&").isTautology should be(false)
+    new Postfix("aa!|").isTautology should be(true)
   }
 
 }
