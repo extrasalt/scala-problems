@@ -22,6 +22,7 @@ class ListProblemsTest extends FlatSpec {
 
   "List" should "sum3sAnd5s" in {
     ListProblems.sum3sAnd5s(1 to 9) should be(23)
+    ListProblems.sum3sAnd5s(1 to 999) should be(233168)
   }
 
   "List" should "slice" in {

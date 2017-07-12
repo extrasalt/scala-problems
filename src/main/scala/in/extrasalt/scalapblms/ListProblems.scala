@@ -62,9 +62,4 @@ object ListProblems {
     val start = (math.pow(10,s.size-1)).toInt
     (start to limit).toList.filter((x)=> isLex(x, s))
   }
-
-  def main(args: Array[String]) = {
-
-    println(sum3sAnd5s(1 to 999))
-  }
 }
